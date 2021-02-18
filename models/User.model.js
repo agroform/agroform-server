@@ -40,19 +40,8 @@ const farmerSchema = new mongoose.Schema(
   {
     fields: [
       {
-        fieldName: String,
-        polygon: String,
-        location: String,
-        size: Number,
-        serviceHistory: [
-          {
-            service: {
-              type: Schema.Types.ObjectId,
-              ref: 'Service'
-            },
-            date: Date
-          }
-        ],
+        type: Schema.Types.ObjectId,
+        ref: 'Field'
       }
     ],
   }, options
