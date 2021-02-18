@@ -1,0 +1,122 @@
+[
+  {
+    "_id": "11731993-0604-4bee-80d5-67ad845d0a38",
+    "service": "plugs",
+    "mainService": "Soil tillage",
+    "icon": "🚜"
+  },
+  {
+    "_id": "11731993-0604-4bee-80d5-67ad845d0a38",
+    "service": "loosen",
+    "mainService": "Soil tillage",
+    "icon": "🚜"
+  },
+  {
+    "_id": "11731993-0604-4bee-80d5-67ad845d0a38",
+    "service": "sow corn",
+    "mainService": "Sowing",
+    "icon": "🌱"
+  },
+  {
+    "_id": "11731993-0604-4bee-80d5-67ad845d0a38",
+    "service": "sow cereals",
+    "mainService": "Sowing",
+    "icon": "🌱"
+  },
+  {
+    "_id": "11731993-0604-4bee-80d5-67ad845d0a38",
+    "service": "sow grassland",
+    "mainService": "Sowing",
+    "icon": "🌱"
+  },
+  {
+    "_id": "11731993-0604-4bee-80d5-67ad845d0a38",
+    "service": "sow oil seed rape",
+    "mainService": "Sowing",
+    "icon": "🌱"
+  },
+  {
+    "_id": "11731993-0604-4bee-80d5-67ad845d0a38",
+    "service": "sow beets",
+    "mainService": "Sowing",
+    "icon": "🌱"
+  },
+  {
+    "_id": "11731993-0604-4bee-80d5-67ad845d0a38",
+    "service": "CULTAN",
+    "mainService": "Fertilisation",
+    "icon": "🚜"
+  },
+  {
+    "_id": "0ad5e441-3084-47a1-9e9b-b917539bba71",
+    "service": "Solid thunder",
+    "mainService": "Fertilisation",
+    "icon": "🚜"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "Liquid thunder",
+    "mainService": "Fertilisation",
+    "icon": "🚜"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "protect grassland",
+    "mainService": "Crop Protection",
+    "icon": "🌿"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "protect cereals",
+    "mainService": "Crop Protection",
+    "icon": "🚜"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "protect oil seed rape",
+    "mainService": "Crop Protection",
+    "icon": "🚜"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "protect corn",
+    "mainService": "Crop Protection",
+    "icon": "🌾"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "protect sugar beets",
+    "mainService": "Crop Protection",
+    "icon": "🚜"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "harvest corn",
+    "mainService": "Harvest",
+    "icon": "🌽"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "harvest cereals",
+    "mainService": "Harvest",
+    "icon": "🌾"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "harvest grassland",
+    "mainService": "Harvest",
+    "icon": "🌿"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "harvest straw & hay",
+    "mainService": "Harvest",
+    "icon": "🚜"
+  },
+  {
+    "_id": "b497e3c4-50bb-4ae2-912f-eb36802c5bc2",
+    "service": "harvest sugar beet ",
+    "mainService": "Harvest",
+    "icon": "🚜"
+  }
+]

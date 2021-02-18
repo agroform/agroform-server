@@ -3,7 +3,7 @@ const router  = express.Router();
 
 /* GET home page */
 router.get('/', (req, res, next) => {
-  res.send("agroform server");
+  res.send("🌱🚜🌾 agroform server");
 });
 
 module.exports = router;
