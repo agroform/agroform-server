@@ -9,18 +9,7 @@ const requestSchema = new Schema({
   destination: String,
   description: String,
   reqOwner: { type: Schema.Types.ObjectId, ref: "Farmer" },
-  response: [
-    {
-      responseDate: Date,
-      vehicle: String,
-      measureHa: true,
-      pricePerHa: Number,
-      measureHour: false,
-      expecTime: Number,
-      pricePerHour: Number,
-      timer: Number,
-    },
-  ],
+  responses: [{type: Schema.Types.ObjectId, ref: "Response"}],
   timestamps: true,
 });
 
