@@ -13,6 +13,7 @@ require('./configs/db.config');
 //const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+require('./configs/session.config.js')(app); 
 
 app.use(logger('dev', {
   skip: function (req, res) {
@@ -38,5 +39,7 @@ app.use(
 const index = require('./routes/index');
 app.use('/', index);
 
+const authRoutes = require('./routes/auth');
+app.use('/api', authRoutes);
 
 module.exports = app;
