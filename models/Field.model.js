@@ -9,11 +9,11 @@ const fieldSchema = new Schema(
     size: Number,
     serviceHistory: [
       {
-        service: {
-          type: Schema.Types.ObjectId,
-          ref: 'Service'
-        },
-        date: Date
+          service: {
+            type: Schema.Types.ObjectId,
+            ref: 'Service'
+          },
+          date: Date
       }
     ],
   },

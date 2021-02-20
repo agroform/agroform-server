@@ -41,4 +41,7 @@ app.use('/', index);
 const authRoutes = require('./routes/auth');
 app.use('/api', authRoutes);
 
+const farmerRoutes = require('./routes/farmer');
+app.use('/api', farmerRoutes);
+
 module.exports = app;

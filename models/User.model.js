@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
+require('../models/Service.model.js');
 
 const options = {
   discriminatorKey: 'kind'
