@@ -5,115 +5,96 @@
     "icon": "🚜"
   },
   {
-    
     "service": "loosen",
     "mainService": "Soil tillage",
     "icon": "🚜"
   },
   {
-    
     "service": "sow corn",
     "mainService": "Sowing",
     "icon": "🌱"
   },
   {
-    
     "service": "sow cereals",
     "mainService": "Sowing",
     "icon": "🌱"
   },
   {
-    
     "service": "sow grassland",
     "mainService": "Sowing",
     "icon": "🌱"
   },
   {
-    
     "service": "sow oil seed rape",
     "mainService": "Sowing",
     "icon": "🌱"
   },
   {
-    
     "service": "sow beets",
     "mainService": "Sowing",
     "icon": "🌱"
   },
   {
-    
     "service": "CULTAN",
     "mainService": "Fertilisation",
     "icon": "🚜"
   },
   {
-    
     "service": "Solid thunder",
     "mainService": "Fertilisation",
     "icon": "🚜"
   },
   {
-    
     "service": "Liquid thunder",
     "mainService": "Fertilisation",
     "icon": "🚜"
   },
   {
-    
     "service": "protect grassland",
     "mainService": "Crop Protection",
     "icon": "🌿"
   },
   {
-    
     "service": "protect cereals",
     "mainService": "Crop Protection",
     "icon": "🚜"
   },
   {
-    
     "service": "protect oil seed rape",
     "mainService": "Crop Protection",
     "icon": "🚜"
   },
   {
-    
     "service": "protect corn",
     "mainService": "Crop Protection",
     "icon": "🌾"
   },
   {
-    
     "service": "protect sugar beets",
     "mainService": "Crop Protection",
     "icon": "🚜"
   },
   {
-    
     "service": "harvest corn",
     "mainService": "Harvest",
     "icon": "🌽"
   },
   {
-    
     "service": "harvest cereals",
     "mainService": "Harvest",
     "icon": "🌾"
   },
   {
-    
     "service": "harvest grassland",
     "mainService": "Harvest",
     "icon": "🌿"
   },
   {
-    
     "service": "harvest straw & hay",
     "mainService": "Harvest",
     "icon": "🚜"
   },
   {
-    
     "service": "harvest sugar beet ",
     "mainService": "Harvest",
     "icon": "🚜"
