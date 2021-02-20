@@ -34,6 +34,9 @@ app.use(
   })
 )
 
+//Seeding database
+app.use('/', require('./seeds/service.seed'));
+
 
 const index = require('./routes/index');
 app.use('/', index);
