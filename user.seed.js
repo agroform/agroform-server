@@ -1,8 +1,8 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
-const {Farmer, Contractor} = require('./models/User.model');
-const Request = require('./models/Service.model');
+const {Farmer, Contractor} = require('../models/User.model');
+const Request = require('../models/Service.model');
 
 const MONGODB_URI = process.env.MONGODB_URI;
 

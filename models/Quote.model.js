@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const requestSchema = new Schema(
+const quoteSchema = new Schema(
   {
     service: { 
       type: Schema.Types.ObjectId, 
@@ -18,14 +18,14 @@ const requestSchema = new Schema(
     },
     destination: String,
     description: String,
-    reqOwner: { 
+    quoteOwner: { 
       type: Schema.Types.ObjectId, 
       ref: "Farmer" 
     },
-    responses: [
+    offers: [
       {
         type: Schema.Types.ObjectId, 
-        ref: "Response"
+        ref: "Offer"
       }
     ],
   },
@@ -34,5 +34,5 @@ const requestSchema = new Schema(
   }  
 );
 
-const Request = mongoose.model("Request", requestSchema);
-module.exports = Request;
+const Quote = mongoose.model("Quote", quoteSchema);
+module.exports = Quote;
