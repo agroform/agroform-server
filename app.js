@@ -35,10 +35,6 @@ app.use(
   })
 )
 
-//Seeding database
-app.use('/', require('./seeds/service.seed'));
-app.use('/', require('./seeds/vehicle.seed'));
-
 const index = require('./routes/index');
 app.use('/', index);
 
