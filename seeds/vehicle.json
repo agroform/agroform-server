@@ -1,0 +1,33 @@
+[
+  {
+    "vehicle": "Fendt 900 Vario",
+    "type": "Tractors",
+    "brand": "Fendt",
+    "weight": 1087,
+    "enginePower": 221,
+    "maxSpeed": 62,
+    "fuelCap": 600,
+    "image": "https://static.wikia.nocookie.net/farmingsimulator/images/e/e1/FS17_Fendt-700Vario_store.png/revision/latest?cb=20161210151240"
+  },
+  {
+    "vehicle": "Deutz Fahr Series 7",
+    "type": "Tractors",
+    "brand": "Deutz",
+    "weight": 8564,
+    "enginePower": 165,
+    "maxSpeed": 63,
+    "fuelCap": 435,
+    "image": "https://static.wikia.nocookie.net/farmingsimulator/images/9/95/FS17_DeutzFahr-Series7.png/revision/latest?cb=20170711230814"
+  },
+  {
+    "vehicle": "New Holland TC5.90",
+    "type": "Harvester",
+    "brand": "New Holland",
+    "weight": 11809,
+    "enginePower": 190,
+    "maxSpeed": 23,
+    "fuelCap": 400,
+    "cropCap": 6400,
+    "image": "https://static.wikia.nocookie.net/farmingsimulator/images/4/49/FS17_NewHolland-TC590.png/revision/latest?cb=20170719024345"
+  }
+]
