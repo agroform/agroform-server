@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const responseSchema = new Schema(
+const offerSchema = new Schema(
   {
     date: Date,
     vehicle: {
@@ -20,7 +20,7 @@ const responseSchema = new Schema(
     expecTime: Number,
     pricePerHour: Number,
     timer: Number,
-    resOwner: { 
+    offerOwner: { 
       type: Schema.Types.ObjectId, 
       ref: "Contractor" 
     }
@@ -30,5 +30,5 @@ const responseSchema = new Schema(
   }
 );
 
-const Response = mongoose.model("Response", responseSchema);
-module.exports = Response;
+const Offer = mongoose.model("Offer", offerSchema);
+module.exports = Offer;
