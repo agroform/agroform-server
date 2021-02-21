@@ -1,9 +1,11 @@
 const { Router } = require('express');
 const router = new Router();
-const mongoose = require('mongoose');
 
 const { User, Farmer } = require('../models/User.model.js');
-const Field = require('../models/Field.model.js');
+const Field = require('../models/Field.model');
+const Quote = require('../models/Quote.model');
+
+const { ensureObjIdValid, ensureLoggedInAsFarmer } = require('../utils/middleware');
 
 router.get('/fields', (req, res, next) => {
   const farmerId = req.user._id;
@@ -51,13 +53,8 @@ router.post('/fields', (req, res, next) => {
   })
 });
 
-router.get('/fields/:fieldId', (req, res, next) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.fieldId)) {
-    res.status(400).json({ message: 'Specified field does not exist' });
-    return;
-  }
-
-  Field.findById(req.params.fieldId)
+router.get('/fields/:id', ensureObjIdValid, (req, res, next) => {
+  Field.findById(req.params.id)
     .populate('serviceHistory.service')
     .then(data => {
       res.status(200).json(data);
@@ -66,5 +63,75 @@ router.get('/fields/:fieldId', (req, res, next) => {
       res.json(err);
     });
 });
+
+router.put('/fields/:id', ensureObjIdValid, (req, res, next) => {
+  Field.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => {
+      res.json( {message: `Field ${req.body.fieldName} is successfully updated`} );
+    })
+    .catch(() => {
+      res.json(err)
+    });
+})
+
+router.delete('/fields/:id', ensureObjIdValid, (req, res, next) => {
+  Field.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.json( {message: `Field ${req.body.fieldName} is successfully deleted`} );
+    })
+    .catch(() => {
+      res.json(err)
+    });
+})
+
+router.get('/quotes?', (req, res, next) => {
+  const fieldId = req.query.field;
+  const farmerId = req.query.farmer;
+
+  if (fieldId && farmerId) {
+    res.json({ message: "the request is made to incorrect API endpoint" });
+    return;
+  }
+
+  if (fieldId) {
+    Quote.find({field: fieldId})
+      .then(quotes => {
+        res.status(200).json(quotes);
+      })
+      .catch(err => {
+        res.status(400).json({message: "Error occurred whilte retriving quotes"})
+      });
+      return;
+  }
+
+  if (farmerId) {
+    Quote.find({quoteOwner: farmerId})
+      .then(quotes => {
+        res.status(200).json(quotes);
+      })
+      .catch(err => {
+        res.status(400).json({message: "Error occurred whilte retriving quotes"})
+      });
+      return;
+  }  
+})
+
+router.post('/quotes', ensureLoggedInAsFarmer, (req, res, next) => {
+  Quote.create({
+    service: req.body.service,
+    field: req.body.field,
+    date: req.body.date,
+    transport: req.body.transport,
+    destination: req.body.destination,
+    quoteOwner: req.user._id,
+  })
+    .then(newQuote => {
+      res.status(200).json(newQuote);
+    })
+    .catch(err => {
+      res.status(400).json(err);
+    })
+})
+
 
 module.exports = router;
