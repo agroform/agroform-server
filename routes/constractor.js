@@ -6,7 +6,7 @@ const router  = express.Router();
 const Quote = require('../models/Quote.model');
 const Offer = require('../models/Offer.model');
 const Vehicle = require('../models/Vehicle.model');
-const { User } = require('../models/User.model');
+const { Contractor, User } = require('../models/User.model');
 
 
 ///// Retrieve list of QUOTES /////
@@ -40,12 +40,7 @@ router.get('/quotes/:quotesId', (req, res, next) => {
 
 ///// Retrieve all OFFERS by contractor /////
 router.get('/offers', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
-
-    Offer.find({offerOwner: req.params.userId})
+    Offer.find({'offerOwner':req.user._id})
         .then( allOffers => {
             res.json(allOffers);
         })
@@ -65,7 +60,7 @@ router.post("/offers", (req, res, next) => {
         expecTime: req.body.expecTime,
         pricePerHour: req.body.pricePerHour,
         timer: req.body.timer,
-        owner: req.user._id
+        offerOwner: req.user._id
     })
     .then( newOffer => {
         res.json(newOffer);
@@ -125,12 +120,13 @@ router.delete('/offers/:offerId', (req, res, next) => {
 
 ///// Retrieve all VEHICLE of a contractor /////
 router.get('/vehicles', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.userId)) {
+    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
         res.status(400).json({ message: 'Specified id is not valid' });
         return;
     }
 
-    User.find(req.params.userId)
+    Contractor.findById(req.user._id)
+        .select('vehicles')
         .then( allVehicles => {
             res.json(allVehicles);
         })
@@ -140,10 +136,11 @@ router.get('/vehicles', (req, res, next) => {
 });
 
 /// Add a VEHICLES /////
-router.put("/vehicles", (req, res, next) => {
-    console.log(req.user._id)
-    User.findByIdAndUpdate( req.user._id,
-        { $push: { vehicles: req.body.vehicleId} }
+router.post("/vehicles", (req, res, next) => {
+    Contractor.findByIdAndUpdate( {_id: req.user._id},
+        { $push: { 'vehicles': req.body.vehicleId} },
+        { new : true},
+        console.log("ArrayVehicle:", req.user.vehicles)  
         )
         .then( response => {
             res.json(response)
