@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+require('./Vehicle.model.js');
+require('./User.model.js');
+
 const offerSchema = new Schema(
   {
     date: Date,
@@ -20,9 +23,14 @@ const offerSchema = new Schema(
     expecTime: Number,
     pricePerHour: Number,
     timer: Number,
-    offerOwner: { 
-      type: Schema.Types.ObjectId, 
-      ref: "Contractor" 
+    offerOwner: {
+      type: Schema.Types.ObjectId,
+      ref: 'Contractor'
+    },
+    status: {
+      type: String,
+      enum: ['pending', 'validated', 'declined'],
+      default: 'pending'
     }
   },
   {

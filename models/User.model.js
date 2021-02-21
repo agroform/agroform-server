@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
+require('../models/Service.model.js');
 
 const options = {
   discriminatorKey: 'kind'
@@ -27,7 +28,7 @@ const userSchema = new Schema(
     street: String,
     userImg: String,
     logo: String,
-  }, 
+  },
   {
     timestamps: true
   }, options
