@@ -1,15 +1,20 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+require('./Offer.model.js');
+require('./Service.model.js');
+require('./Field.model.js');
+require('./User.model.js');
+
 const quoteSchema = new Schema(
   {
-    service: { 
-      type: Schema.Types.ObjectId, 
-      ref: 'Service' 
+    service: {
+      type: Schema.Types.ObjectId,
+      ref: 'Service'
     },
-    field: { 
-      type: Schema.Types.ObjectId, 
-      ref: 'Field' 
+    field: {
+      type: Schema.Types.ObjectId,
+      ref: 'Field'
     },
     date: Date,
     transport: {
@@ -18,20 +23,20 @@ const quoteSchema = new Schema(
     },
     destination: String,
     description: String,
-    quoteOwner: { 
-      type: Schema.Types.ObjectId, 
-      ref: "Farmer" 
+    quoteOwner: {
+      type: Schema.Types.ObjectId,
+      ref: "Farmer"
     },
     offers: [
       {
-        type: Schema.Types.ObjectId, 
+        type: Schema.Types.ObjectId,
         ref: "Offer"
       }
     ],
   },
   {
     timestamps: true
-  }  
+  }
 );
 
 const Quote = mongoose.model("Quote", quoteSchema);

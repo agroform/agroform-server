@@ -28,7 +28,7 @@ const userSchema = new Schema(
     street: String,
     userImg: String,
     logo: String,
-  }, 
+  },
   {
     timestamps: true
   }, options

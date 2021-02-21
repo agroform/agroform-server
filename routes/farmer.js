@@ -5,7 +5,28 @@ const { User, Farmer } = require('../models/User.model.js');
 const Field = require('../models/Field.model');
 const Quote = require('../models/Quote.model');
 
-const { ensureObjIdValid, ensureLoggedInAsFarmer } = require('../utils/middleware');
+const {
+  ensureObjIdValid,
+  ensureLoggedInAsFarmer
+} = require('../utils/middleware');
+
+router.get('/profile', (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    res.status(400).json({message: 'Unauthorized. Please log in'});
+    return;
+  }
+  res.status(200).json(req.user);
+})
+
+router.put('/profile', (req, res, next) => {
+  User.findByIdAndUpdate(req.user._id, req.body)
+    .then(() => {
+      res.json({ message: `Your profile is updated successfully.` });
+    })
+    .catch(err => {
+      res.status(400).json({message: `Error: ${err.message}`});
+    })
+})
 
 router.get('/fields', (req, res, next) => {
   const farmerId = req.user._id;
@@ -24,16 +45,16 @@ router.post('/fields', (req, res, next) => {
   const farmerId = req.user._id;
 
   const {
-    fieldName, 
-    polygon, 
-    location, 
+    fieldName,
+    polygon,
+    location,
     size
   } = req.body;
 
   Field.create({
-    fieldName, 
-    polygon, 
-    location, 
+    fieldName,
+    polygon,
+    location,
     size
   })
   .then(newField => {
@@ -95,6 +116,7 @@ router.get('/quotes?', (req, res, next) => {
 
   if (fieldId) {
     Quote.find({field: fieldId})
+      .populate('service field quoteOwner offers')
       .then(quotes => {
         res.status(200).json(quotes);
       })
@@ -106,6 +128,7 @@ router.get('/quotes?', (req, res, next) => {
 
   if (farmerId) {
     Quote.find({quoteOwner: farmerId})
+      .populate('service field quoteOwner offers')
       .then(quotes => {
         res.status(200).json(quotes);
       })
@@ -113,7 +136,7 @@ router.get('/quotes?', (req, res, next) => {
         res.status(400).json({message: "Error occurred whilte retriving quotes"})
       });
       return;
-  }  
+  }
 })
 
 router.post('/quotes', ensureLoggedInAsFarmer, (req, res, next) => {
@@ -133,5 +156,24 @@ router.post('/quotes', ensureLoggedInAsFarmer, (req, res, next) => {
     })
 })
 
+router.put('/quotes/:id', ensureObjIdValid, (req, res, next) => {
+  Quote.findByIdAndUpdate(req.params.id, req.body)
+    .then(() => {
+      res.status(200).json({message: "Quote successfully updated"});
+    })
+    .catch(err => {
+      res.status(400).json({message: `Error: ${err.message}`});
+    })
+})
+
+router.delete('/quotes/:id', ensureObjIdValid, (req, res, next) => {
+  Quote.findByIdAndRemove(req.params.id)
+    .then(() => {
+      res.status(200).json({message: "Quote successfully deleted"});
+    })
+    .catch(err => {
+      res.status(400).json({message: `Error: ${err.message}`});
+    })
+})
 
 module.exports = router;

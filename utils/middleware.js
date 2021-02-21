@@ -5,7 +5,7 @@ function ensureObjIdValid(req, res, next) {
   if (mongoose.Types.ObjectId.isValid(req.params.id)) {
     return next();
   } else {
-    res.status(400).json({ message: 'Specified field does not exist' });
+    res.status(400).json({ message: 'Specified item does not exist' });
     return;
   }
 }
@@ -18,4 +18,7 @@ function ensureLoggedInAsFarmer(req, res, next) {
   }
 }
 
-module.exports = { ensureObjIdValid, ensureLoggedInAsFarmer };
+module.exports = {
+  ensureObjIdValid,
+  ensureLoggedInAsFarmer,
+};
