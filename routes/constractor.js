@@ -7,6 +7,11 @@ const Quote = require('../models/Quote.model');
 const Offer = require('../models/Offer.model');
 const { Contractor, User } = require('../models/User.model');
 
+const {
+    ensureObjIdValid,
+    ensureLoggedInAsContractor
+  } = require('../utils/middleware');
+
 
 ///// Retrieve list of QUOTES /////
 router.get("/quotes", (req, res, next) => {
@@ -21,13 +26,9 @@ router.get("/quotes", (req, res, next) => {
 });
 
 ///// Retrieve details of a specific QUOTE /////
-router.get('/quotes/:quotesId', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.quotesId)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.get('/quotes/:id',ensureObjIdValid, (req, res, next) => {
 
-    Quote.findById(req.params.quotesId)
+    Quote.findById(req.params.id)
         .populate('offer')
         .then( quote => {
             res.json(quote);
@@ -39,6 +40,7 @@ router.get('/quotes/:quotesId', (req, res, next) => {
 
 ///// Retrieve all OFFERS by contractor /////
 router.get('/offers', (req, res, next) => {
+
     Offer.find({'offerOwner':req.user._id})
         .then( allOffers => {
             res.json(allOffers);
@@ -50,6 +52,7 @@ router.get('/offers', (req, res, next) => {
 
 ///// Create new OFFERS /////
 router.post("/offers", (req, res, next) => {
+    
     Offer.create({
         date: req.body.date,
         vehicle: req.body.vehicle,
@@ -70,13 +73,9 @@ router.post("/offers", (req, res, next) => {
 });
 
 ///// Retrieve details of a specific OFFER /////
-router.get('/offers/:offerId', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.offerId)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.get('/offers/:id',ensureObjIdValid, (req, res, next) => {
 
-    Offer.findById(req.params.offerId)
+    Offer.findById(req.params.id)
         .then( offer => {
             res.json(offer);
         })
@@ -86,13 +85,9 @@ router.get('/offers/:offerId', (req, res, next) => {
 });
 
 /// Update a OFFER /////
-router.put('/offers/:offerId', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.offerId)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.put('/offers/:id', ensureObjIdValid, (req, res, next) => {
 
-    Offer.findByIdAndUpdate(req.params.offerId, req.body)
+    Offer.findByIdAndUpdate(req.params.id, req.body)
         .then( () => {
             res.json({ message: `Offer with ${req.params.offerId} is updated successfully.` });
         })
@@ -102,15 +97,11 @@ router.put('/offers/:offerId', (req, res, next) => {
 });
 
 /// Delete a OFFER /////
-router.delete('/offers/:offerId', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params.offerId)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.delete('/offers/:id', ensureObjIdValid, (req, res, next) => {
 
-    Offer.findByIdAndRemove(req.params.offerId)
+    Offer.findByIdAndRemove(req.params.id)
         .then( () => {
-            res.json({ message: `Offer with ${req.params.offerId} is removed successfully.` });
+            res.json({ message: `Offer with ${req.params.id} is removed successfully.` });
         })
         .catch( err => {
             res.status(500).send(err);
@@ -118,11 +109,7 @@ router.delete('/offers/:offerId', (req, res, next) => {
 });
 
 ///// Retrieve all VEHICLE of a contractor /////
-router.get('/vehicles', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.get('/vehicles',ensureLoggedInAsContractor , (req, res, next) => {
 
     Contractor.findById(req.user._id)
         .select('vehicles')
@@ -135,11 +122,7 @@ router.get('/vehicles', (req, res, next) => {
 });
 
 /// Add a VEHICLES /////
-router.post("/vehicles", (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.post("/vehicles", ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findByIdAndUpdate( {_id: req.user._id},
         { $push: { 'vehicles': req.body.vehicleId} },
@@ -154,17 +137,13 @@ router.post("/vehicles", (req, res, next) => {
 });
 
 /// Delete a VEHICLE /////
-router.put('/vehicles/:vehicleId', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.put('/vehicles/:id', ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findByIdAndUpdate({_id: req.user._id},
-        { $pull:{ vehicles: req.params.vehicleId  } },
+        { $pull:{ vehicles: req.params.id  } },
         )
     .then( () => {
-        res.json({ message: `Vehicle with ${req.params.vehicleId} is removed successfully.` });
+        res.json({ message: `Vehicle with ${req.params.id} is removed successfully.` });
     })
     .catch( err => {
         res.status(500).json(err);
@@ -172,11 +151,7 @@ router.put('/vehicles/:vehicleId', (req, res, next) => {
 });
 
 ///// Retrieve all SERVICES of a contractor /////
-router.get('/services', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.get('/services', ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findById(req.user._id)
         .select('services')
@@ -189,14 +164,10 @@ router.get('/services', (req, res, next) => {
 });
 
 /// Add a SERVICES /////
-router.post("/services", (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.post("/services", ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findByIdAndUpdate( {_id: req.user._id},
-        { $push: { 'services': req.body.serviceId} },
+        { $push: { 'services': req.body.id} },
         { new : true},
         )
         .then( addservice => {
@@ -208,17 +179,13 @@ router.post("/services", (req, res, next) => {
 });
 
 /// Delete a SERVICE ////
-router.put('/services/:serviceId', (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
-        res.status(400).json({ message: 'Specified id is not valid' });
-        return;
-    }
+router.put('/services/:id', ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findByIdAndUpdate({_id: req.user._id},
-        { $pull:{ services: req.params.serviceId } },
+        { $pull:{ services: req.params.id } },
         )
     .then( () => {
-        res.json({ message: `Service with ${req.params.serviceId} is removed successfully.` });
+        res.json({ message: `Service with ${req.params.id} is removed successfully.` });
     })
     .catch( err => {
         res.status(500).json(err);
