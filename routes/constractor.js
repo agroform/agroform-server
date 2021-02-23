@@ -5,7 +5,6 @@ const router  = express.Router();
 // const User = require('../models/User.model');
 const Quote = require('../models/Quote.model');
 const Offer = require('../models/Offer.model');
-const Vehicle = require('../models/Vehicle.model');
 const { Contractor, User } = require('../models/User.model');
 
 
@@ -137,20 +136,93 @@ router.get('/vehicles', (req, res, next) => {
 
 /// Add a VEHICLES /////
 router.post("/vehicles", (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
+        res.status(400).json({ message: 'Specified id is not valid' });
+        return;
+    }
+
     Contractor.findByIdAndUpdate( {_id: req.user._id},
         { $push: { 'vehicles': req.body.vehicleId} },
-        { new : true},
-        console.log("ArrayVehicle:", req.user.vehicles)  
+        { new : true },
         )
-        .then( response => {
-            res.json(response)
+        .then( addVehicle => {
+            res.json(addVehicle);
         })
         .catch( err => {
             res.status(500).json(err);
         });
 });
 
+/// Delete a VEHICLE /////
+router.put('/vehicles/:vehicleId', (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
+        res.status(400).json({ message: 'Specified id is not valid' });
+        return;
+    }
 
+    Contractor.findByIdAndUpdate({_id: req.user._id},
+        { $pull:{ vehicles: req.params.vehicleId  } },
+        )
+    .then( () => {
+        res.json({ message: `Vehicle with ${req.params.vehicleId} is removed successfully.` });
+    })
+    .catch( err => {
+        res.status(500).json(err);
+    });
+});
 
+///// Retrieve all SERVICES of a contractor /////
+router.get('/services', (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
+        res.status(400).json({ message: 'Specified id is not valid' });
+        return;
+    }
+
+    Contractor.findById(req.user._id)
+        .select('services')
+        .then( allServices => {
+            res.json(allServices);
+        })
+        .catch( err => {
+            res.status(500).json(err);
+        });
+});
+
+/// Add a SERVICES /////
+router.post("/services", (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
+        res.status(400).json({ message: 'Specified id is not valid' });
+        return;
+    }
+
+    Contractor.findByIdAndUpdate( {_id: req.user._id},
+        { $push: { 'services': req.body.serviceId} },
+        { new : true},
+        )
+        .then( addservice => {
+            res.json(addservice)
+        })
+        .catch( err => {
+            res.status(500).json(err);
+        });
+});
+
+/// Delete a SERVICE ////
+router.put('/services/:serviceId', (req, res, next) => {
+    if (!mongoose.Types.ObjectId.isValid(req.user._id)) {
+        res.status(400).json({ message: 'Specified id is not valid' });
+        return;
+    }
+
+    Contractor.findByIdAndUpdate({_id: req.user._id},
+        { $pull:{ services: req.params.serviceId } },
+        )
+    .then( () => {
+        res.json({ message: `Service with ${req.params.serviceId} is removed successfully.` });
+    })
+    .catch( err => {
+        res.status(500).json(err);
+    });
+});
 
 module.exports = router;
