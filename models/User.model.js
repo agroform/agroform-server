@@ -58,7 +58,7 @@ const contractorSchema = new mongoose.Schema(
     }],
     vehicules: [{
       type: Schema.Types.ObjectId,
-      ref: 'vehicule'
+      ref: 'Vehicule'
     }]
   }, options
 );

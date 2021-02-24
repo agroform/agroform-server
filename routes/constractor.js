@@ -112,7 +112,6 @@ router.delete('/offers/:id', ensureObjIdValid, (req, res, next) => {
 router.get('/vehicules',ensureLoggedInAsContractor , (req, res, next) => {
 
     Contractor.findById(req.user._id)
-        .select('vehicules')
         .then( allvehicules => {
             res.json(allvehicules.vehicules);
         })

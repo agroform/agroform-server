@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const mongoose = require('mongoose');
 const {Farmer, Contractor} = require('./models/User.model');
-const vehicule = require('./models/vehicule.model');
+const Vehicule = require('./models/Vehicule.model');
 const Service = require('./models/Service.model');
 
 const vehiculeData = require('./data/vehicule.json');
@@ -46,7 +46,7 @@ mongoose
   })
   .then(async () => {
     await Promise.all([
-      vehicule.insertMany(vehiculeData),
+      Vehicule.insertMany(vehiculeData),
       Service.insertMany(serviceData),
       Farmer.create(farmerSeed),
       Contractor.create(contractorSeed)
