@@ -42,7 +42,6 @@ router.post('/register', (req, res, next) => {
   });
 
   newUser.save(err => {
-    console.log(err)
     if (err) {
       res
         .status(500)

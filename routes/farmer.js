@@ -32,7 +32,6 @@ router.get('/fields', (req, res, next) => {
   const farmerId = req.user._id;
   Farmer
     .findById(farmerId)
-    .populate('fields')
     .then(farmer => {
       res.json(farmer.fields);
     })
@@ -128,9 +127,9 @@ router.get('/quotes?', (req, res, next) => {
 
   if (farmerId) {
     Quote.find({quoteOwner: farmerId})
-      .populate('service field quoteOwner offers')
-      .then(quotes => {
-        res.status(200).json(quotes);
+      .select('_id')
+      .then(response => {
+        res.status(200).json(response);
       })
       .catch(err => {
         res.status(400).json({message: "Error occurred whilte retriving quotes"})
