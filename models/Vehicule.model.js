@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const vehicleSchema = new Schema(
+const vehiculeSchema = new Schema(
   {
-    vehicle: String,
+    vehicule: String,
     type: String,
     brand: String,
     weight: Number, //kg
@@ -15,6 +15,6 @@ const vehicleSchema = new Schema(
   },
 );
 
-const Vehicle = mongoose.model("Vehicle", vehicleSchema);
+const vehicule = mongoose.model("vehicule", vehiculeSchema);
 
-module.exports = Vehicle;
+module.exports = vehicule;

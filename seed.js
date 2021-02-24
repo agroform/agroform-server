@@ -2,10 +2,10 @@ require('dotenv').config();
 
 const mongoose = require('mongoose');
 const {Farmer, Contractor} = require('./models/User.model');
-const Vehicle = require('./models/Vehicle.model');
+const vehicule = require('./models/vehicule.model');
 const Service = require('./models/Service.model');
 
-const vehicleData = require('./data/vehicle.json');
+const vehiculeData = require('./data/vehicule.json');
 const serviceData = require('./data/service.json');
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -35,7 +35,7 @@ const contractorSeed = {
   userImg: "image url",
   logo: "logo url",
   service: [],
-  vehicles: [],
+  vehicules: [],
 };
 
 mongoose
@@ -46,13 +46,13 @@ mongoose
   })
   .then(async () => {
     await Promise.all([
-      Vehicle.insertMany(vehicleData),
+      vehicule.insertMany(vehiculeData),
       Service.insertMany(serviceData),
       Farmer.create(farmerSeed),
       Contractor.create(contractorSeed)
     ]);
   })
-  .then(() => console.log("data base seeded with vehicles, services and 2 dummy users"))
+  .then(() => console.log("data base seeded with vehicules, services and 2 dummy users"))
   .then(() => mongoose.connection.close())
   .catch(err => console.log(err));
 

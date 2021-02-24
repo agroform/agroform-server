@@ -56,9 +56,9 @@ const contractorSchema = new mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: 'Service'
     }],
-    vehicles: [{
+    vehicules: [{
       type: Schema.Types.ObjectId,
-      ref: 'Vehicle'
+      ref: 'vehicule'
     }]
   }, options
 );

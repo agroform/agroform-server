@@ -40,8 +40,8 @@ router.get('/quotes/:id',ensureObjIdValid, (req, res, next) => {
 
 ///// Retrieve all OFFERS by contractor /////
 router.get('/offers', (req, res, next) => {
-
     Offer.find({'offerOwner':req.user._id})
+        .select('_id')
         .then( allOffers => {
             res.json(allOffers);
         })
@@ -52,10 +52,10 @@ router.get('/offers', (req, res, next) => {
 
 ///// Create new OFFERS /////
 router.post("/offers", (req, res, next) => {
-    
+
     Offer.create({
         date: req.body.date,
-        vehicle: req.body.vehicle,
+        vehicule: req.body.vehicule,
         measureHa: req.body.measureHa,
         pricePerHa: req.body.pricePerHa,
         measureHour: req.body.measureHour,
@@ -108,42 +108,42 @@ router.delete('/offers/:id', ensureObjIdValid, (req, res, next) => {
         });
 });
 
-///// Retrieve all VEHICLE of a contractor /////
-router.get('/vehicles',ensureLoggedInAsContractor , (req, res, next) => {
+///// Retrieve all vehicule of a contractor /////
+router.get('/vehicules',ensureLoggedInAsContractor , (req, res, next) => {
 
     Contractor.findById(req.user._id)
-        .select('vehicles')
-        .then( allVehicles => {
-            res.json(allVehicles);
+        .select('vehicules')
+        .then( allvehicules => {
+            res.json(allvehicules.vehicules);
         })
         .catch( err => {
             res.status(500).json(err);
         });
 });
 
-/// Add a VEHICLES /////
-router.post("/vehicles", ensureLoggedInAsContractor, (req, res, next) => {
+/// Add a vehiculeS /////
+router.post("/vehicules", ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findByIdAndUpdate( {_id: req.user._id},
-        { $push: { 'vehicles': req.body.vehicleId} },
+        { $push: { 'vehicules': req.body.vehiculeId} },
         { new : true },
         )
-        .then( addVehicle => {
-            res.json(addVehicle);
+        .then( addvehicule => {
+            res.json(addvehicule);
         })
         .catch( err => {
             res.status(500).json(err);
         });
 });
 
-/// Delete a VEHICLE /////
-router.put('/vehicles/:id', ensureLoggedInAsContractor, (req, res, next) => {
+/// Delete a vehicule /////
+router.put('/vehicules/:id', ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findByIdAndUpdate({_id: req.user._id},
-        { $pull:{ vehicles: req.params.id  } },
+        { $pull:{ vehicules: req.params.id  } },
         )
     .then( () => {
-        res.json({ message: `Vehicle with ${req.params.id} is removed successfully.` });
+        res.json({ message: `vehicule with ${req.params.id} is removed successfully.` });
     })
     .catch( err => {
         res.status(500).json(err);

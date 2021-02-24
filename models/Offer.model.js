@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-require('./Vehicle.model.js');
+require('./vehicule.model.js');
 require('./User.model.js');
 
 const offerSchema = new Schema(
   {
     date: Date,
-    vehicle: {
+    vehicule: {
       type: Schema.Types.ObjectId,
-      ref: 'Vehicle'
+      ref: 'vehicule'
     },
     measureHa: {
       type: Boolean,
