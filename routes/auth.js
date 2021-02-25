@@ -117,4 +117,40 @@ router.get('/loggedin', (req, res, next) => {
   res.status(403).json({ message: 'Unauthorized' });
 });
 
+
+router.get('/profile', (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    res.status(400).json({message: 'Unauthorized. Please log in'});
+    return;
+  }
+  res.status(200).json(req.user);
+})
+
+router.post('/profile', (req, res, next) => {
+  let userInfos = JSON.parse(JSON.stringify(req.body));
+
+  const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
+  if (!regex.test(userInfos.password)) {
+      res
+        .status(400)
+        .json({
+          message: "Can not update Password, it should have at least 6 chars and must contain at least one number, one lowercase and one uppercase letter"
+        });
+      return;
+  }
+
+  const salt = bcryptjs.genSaltSync(saltRounds);
+  const hashedPassword = bcryptjs.hashSync(userInfos.password, salt);
+  delete userInfos.password;
+  userInfos.passwordHash = hashedPassword;
+
+  User.findByIdAndUpdate(req.user._id, userInfos)
+    .then(() => {
+      res.json({ message: `Your profile is updated successfully.` });
+    })
+    .catch(err => {
+      res.status(400).json({message: `Error: ${err.message}`});
+    })
+})
+
 module.exports = router;
