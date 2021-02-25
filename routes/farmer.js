@@ -10,23 +10,6 @@ const {
   ensureLoggedInAsFarmer
 } = require('../utils/middleware');
 
-router.get('/profile', (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    res.status(400).json({message: 'Unauthorized. Please log in'});
-    return;
-  }
-  res.status(200).json(req.user);
-})
-
-router.put('/profile', (req, res, next) => {
-  User.findByIdAndUpdate(req.user._id, req.body)
-    .then(() => {
-      res.json({ message: `Your profile is updated successfully.` });
-    })
-    .catch(err => {
-      res.status(400).json({message: `Error: ${err.message}`});
-    })
-})
 
 router.get('/fields', (req, res, next) => {
   const farmerId = req.user._id;
