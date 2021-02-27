@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-require('./vehicule.model.js');
+require('./Vehicule.model.js');
 require('./User.model.js');
 
 const offerSchema = new Schema(

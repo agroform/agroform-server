@@ -129,6 +129,17 @@ router.get('/profile', (req, res, next) => {
 router.post('/profile', (req, res, next) => {
   let userInfos = JSON.parse(JSON.stringify(req.body));
 
+  if (!userInfos.password) {
+    User.findByIdAndUpdate(req.user._id, userInfos)
+    .then(() => {
+      res.json({ message: `Your profile is updated successfully.` });
+    })
+    .catch(err => {
+      res.status(400).json({message: `Error: ${err.message}`});
+    });
+    return;
+  }
+
   const regex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!regex.test(userInfos.password)) {
       res
