@@ -13,6 +13,7 @@ require('./configs/db.config');
 //const debug = require('debug')(`${app_name}:${path.basename(__filename).split('.')[0]}`);
 
 const app = express();
+app.set('trust proxy', 1);
 require('./configs/session.config.js')(app);
 
 app.use(logger('dev', {

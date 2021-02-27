@@ -15,7 +15,7 @@ module.exports = app => {
     session({
       secret: process.env.SESSION_SECRET,
       cookie: {
-        path: '/',
+        //path: '/',
         sameSite: 'none',
         maxAge: 60000000,
         secure: true,
