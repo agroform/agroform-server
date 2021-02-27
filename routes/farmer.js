@@ -45,14 +45,21 @@ router.post('/fields', (req, res, next) => {
         $push: {fields: newField._id}
       })
       .then(() => {
-        res.json(newField)
+        res.json({
+          message: "New field successfully added",
+          newField: newField._id
+        })
       })
       .catch(err => {
-        res.json(err)
+        res.json({
+          message: "Something went wrong :("
+        })
       });
   })
   .catch(err => {
-    res.json(err);
+    res.json({
+      message: "Something went wrong :("
+    });
   })
 });
 
