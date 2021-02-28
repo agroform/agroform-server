@@ -7,6 +7,10 @@ const fieldSchema = new Schema(
     polygon: String,
     location: String,
     size: Number,
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'Farmer'
+    },
     serviceHistory: [
       {
           service: {

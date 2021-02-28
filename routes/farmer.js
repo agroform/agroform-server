@@ -37,7 +37,8 @@ router.post('/fields', (req, res, next) => {
     fieldName,
     polygon,
     location,
-    size
+    size,
+    owner: farmerId,
   })
   .then(newField => {
     Farmer
