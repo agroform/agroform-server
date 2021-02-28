@@ -15,10 +15,9 @@ module.exports = app => {
     session({
       secret: process.env.SESSION_SECRET,
       cookie: {
-        //path: '/',
-        sameSite: 'none',
+        sameSite: process.env.ENV === "production" ? 'none' : 'lax',
         maxAge: 60000000,
-        secure: true,
+        secure: process.env.ENV === "production",
       },
       store: new MongoStore({
         mongooseConnection: mongoose.connection
