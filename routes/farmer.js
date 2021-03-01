@@ -128,10 +128,15 @@ router.post('/quotes', ensureLoggedInAsFarmer, (req, res, next) => {
     quoteOwner: req.user._id,
   })
     .then(newQuote => {
-      res.status(200).json(newQuote);
+      res.json({
+        message: "New quote successfully added",
+        newField: newQuote._id
+      })
     })
     .catch(err => {
-      res.status(400).json(err);
+      res.json({
+        message: "Something went wrong :("
+      });
     })
 })
 
