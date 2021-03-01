@@ -39,12 +39,7 @@ const User = mongoose.model('User', userSchema);
 
 const farmerSchema = new mongoose.Schema(
   {
-    fields: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Field'
-      }
-    ],
+    farmName: String
   }, options
 );
 const Farmer = User.discriminator('Farmer', farmerSchema);
