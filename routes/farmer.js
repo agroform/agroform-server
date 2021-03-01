@@ -13,13 +13,14 @@ const {
 
 router.get('/fields', (req, res, next) => {
   const farmerId = req.user._id;
-  Farmer
-    .findById(farmerId)
-    .then(farmer => {
-      res.json(farmer.fields);
+  Field.find({owner: farmerId})
+    .then(fields => {
+      res.json(fields)
     })
     .catch(err => {
-      res.json(err);
+      res.json({
+        message: "Something went wrong :("
+      })
     });
 });
 
@@ -40,28 +41,17 @@ router.post('/fields', (req, res, next) => {
     size,
     owner: farmerId,
   })
-  .then(newField => {
-    Farmer
-      .findByIdAndUpdate(farmerId, {
-        $push: {fields: newField._id}
+    .then(newField => {
+      res.json({
+        message: "New field successfully added",
+        newField: newField._id
       })
-      .then(() => {
-        res.json({
-          message: "New field successfully added",
-          newField: newField._id
-        })
-      })
-      .catch(err => {
-        res.json({
-          message: "Something went wrong :("
-        })
+    })
+    .catch(err => {
+      res.json({
+        message: "Something went wrong :("
       });
-  })
-  .catch(err => {
-    res.json({
-      message: "Something went wrong :("
-    });
-  })
+    })
 });
 
 router.get('/fields/:id', ensureObjIdValid, (req, res, next) => {
@@ -118,7 +108,6 @@ router.get('/quotes?', (req, res, next) => {
 
   if (farmerId) {
     Quote.find({quoteOwner: farmerId})
-      .select('_id')
       .then(response => {
         res.status(200).json(response);
       })

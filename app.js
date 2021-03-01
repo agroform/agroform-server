@@ -36,15 +36,10 @@ app.use(
   })
 )
 
-// ROUTES MIDDLEWARE STARTS HERE:
 app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/auth'));
+app.use('/api', require('./routes/file-upload'));
+app.use('/api', require('./routes/farmer'));
 app.use('/api', require('./routes/constractor'));
-
-const fileUploadRoutes = require('./routes/file-upload');
-app.use('/api', fileUploadRoutes);
-
-const farmerRoutes = require('./routes/farmer');
-app.use('/api', farmerRoutes);
 
 module.exports = app;
