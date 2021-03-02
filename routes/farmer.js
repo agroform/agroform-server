@@ -125,6 +125,7 @@ router.post('/quotes', ensureLoggedInAsFarmer, (req, res, next) => {
     date: req.body.date,
     transport: req.body.transport,
     destination: req.body.destination,
+    description: req.body.description,
     quoteOwner: req.user._id,
   })
     .then(newQuote => {
