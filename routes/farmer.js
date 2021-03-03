@@ -131,7 +131,7 @@ router.post('/quotes', ensureLoggedInAsFarmer, (req, res, next) => {
     .then(newQuote => {
       res.json({
         message: "New quote successfully added",
-        newField: newQuote._id
+        newQuote: newQuote._id
       })
     })
     .catch(err => {
