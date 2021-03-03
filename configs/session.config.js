@@ -24,7 +24,7 @@ module.exports = app => {
       }),
       resave: true,
       saveUninitialized: false, // <== false if you don't want to save empty session object to the store
-      ttl: 60 * 60 * 24 // 60 sec * 60min * 24h
+      ttl: 60 * 60 * 24 * 30 // 60 sec * 60min * 24h * 30day
     })
   );
 

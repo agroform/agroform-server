@@ -29,7 +29,7 @@ router.get("/quotes", (req, res, next) => {
 router.get('/quotes/:id',ensureObjIdValid, (req, res, next) => {
 
     Quote.findById(req.params.id)
-        .populate('offer')
+        .populate('field service offer')
         .then( quote => {
             res.json(quote);
         })
