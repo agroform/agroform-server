@@ -40,6 +40,6 @@ app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/auth'));
 app.use('/api', require('./routes/file-upload'));
 app.use('/api', require('./routes/farmer'));
-app.use('/api', require('./routes/constractor'));
+app.use('/api', require('./routes/contractor'));
 
 module.exports = app;

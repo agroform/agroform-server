@@ -14,9 +14,9 @@ const {
 
 
 ///// Retrieve list of QUOTES /////
-router.get("/quotes", (req, res, next) => {
+router.get("/quotes/all", (req, res, next) => {
     Quote.find()
-        .populate('offers')
+        .populate('service field quoteOwner')
         .then( allQuotes => {
             res.json( allQuotes );
         })
