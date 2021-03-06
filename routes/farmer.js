@@ -88,11 +88,7 @@ router.delete('/fields/:id', ensureObjIdValid, (req, res, next) => {
 router.get('/quotes?', (req, res, next) => {
   const fieldId = req.query.field;
   const farmerId = req.query.farmer;
-
-  if (fieldId && farmerId) {
-    res.json({ message: "the request is made to incorrect API endpoint" });
-    return;
-  }
+  const offerId = req.query.offer;
 
   if (fieldId) {
     Quote.find({field: fieldId})
@@ -113,6 +109,18 @@ router.get('/quotes?', (req, res, next) => {
       })
       .catch(err => {
         res.status(400).json({message: "Error occurred whilte retriving quotes"})
+      });
+      return;
+  }
+
+  if (offerId) {
+    Quote.findOne({offers: offerId})
+      .populate('service field quoteOwner')
+      .then(quotes => {
+        res.status(200).json(quotes);
+      })
+      .catch(err => {
+        res.status(400).json({message: "Error occurred whilte retriving quote"})
       });
       return;
   }
