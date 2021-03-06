@@ -9,7 +9,7 @@ const offerSchema = new Schema(
     date: Date,
     vehicule: {
       type: Schema.Types.ObjectId,
-      ref: 'vehicule'
+      ref: 'Vehicule'
     },
     measureHa: {
       type: Boolean,

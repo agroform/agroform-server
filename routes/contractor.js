@@ -41,11 +41,12 @@ router.get('/quotes/:id',ensureObjIdValid, (req, res, next) => {
 ///// Retrieve all OFFERS by contractor /////
 router.get('/offers', (req, res, next) => {
     Offer.find({'offerOwner':req.user._id})
-        .select('_id')
+        .populate('vehicule')
         .then( allOffers => {
             res.json(allOffers);
         })
         .catch( err => {
+            console.log(err);
             res.status(500).json(err);
         });
 });
