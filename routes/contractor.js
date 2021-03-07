@@ -29,7 +29,7 @@ router.get("/quotes/all", (req, res, next) => {
 router.get('/quotes/:id',ensureObjIdValid, (req, res, next) => {
 
     Quote.findById(req.params.id)
-        .populate('field service offer')
+        .populate('field service offers')
         .then( quote => {
             res.json(quote);
         })
@@ -62,7 +62,7 @@ router.post("/offers", (req, res, next) => {
         measureHour: req.body.measureHour,
         expecTime: req.body.expecTime,
         pricePerHour: req.body.pricePerHour,
-        timer: req.body.timer,
+        //timer: req.body.timer,
         offerOwner: req.user._id
     })
     .then( newOffer => {
@@ -77,6 +77,7 @@ router.post("/offers", (req, res, next) => {
 router.get('/offers/:id',ensureObjIdValid, (req, res, next) => {
 
     Offer.findById(req.params.id)
+        .populate('vehicule')
         .then( offer => {
             res.json(offer);
         })
@@ -90,7 +91,7 @@ router.put('/offers/:id', ensureObjIdValid, (req, res, next) => {
 
     Offer.findByIdAndUpdate(req.params.id, req.body)
         .then( () => {
-            res.json({ message: `Offer with ${req.params.offerId} is updated successfully.` });
+            res.json({ message: `Offer is updated successfully.` });
         })
         .catch( err => {
             res.status(500).send(err);
@@ -110,11 +111,12 @@ router.delete('/offers/:id', ensureObjIdValid, (req, res, next) => {
 });
 
 ///// Retrieve all vehicule of a contractor /////
-router.get('/vehicules',ensureLoggedInAsContractor , (req, res, next) => {
+router.get('/vehicules', ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findById(req.user._id)
-        .then( allvehicules => {
-            res.json(allvehicules.vehicules);
+        .populate('vehicules')
+        .then( contractorData => {
+            res.json(contractorData.vehicules);
         })
         .catch( err => {
             res.status(500).json(err);
