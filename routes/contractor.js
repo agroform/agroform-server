@@ -103,11 +103,17 @@ router.put('/offers/:id', ensureObjIdValid, (req, res, next) => {
 });
 
 /// Delete a OFFER /////
-router.delete('/offers/:id', ensureObjIdValid, (req, res, next) => {
+router.post('/offers/:id', ensureObjIdValid, (req, res, next) => {
 
     Offer.findByIdAndRemove(req.params.id)
         .then( () => {
-            res.json({ message: `Offer with ${req.params.id} is removed successfully.` });
+            console.log(req.body.quoteId);
+            Quote.findByIdAndUpdate(req.body.quoteId, {$pull: { offers: req.params.id}})
+                .then(() => {
+                    console.log(req.params.id);
+                    res.json({ message: `Offer with ${req.params.id} is removed successfully.` });
+                })
+                .catch(err => console.log(err));
         })
         .catch( err => {
             res.status(500).send(err);
