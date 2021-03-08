@@ -4,7 +4,9 @@ const router  = express.Router();
 
 // const User = require('../models/User.model');
 const Quote = require('../models/Quote.model');
+const Service = require('../models/Service.model');
 const Offer = require('../models/Offer.model');
+const Vehicule = require('../models/Vehicule.model');
 const { Contractor, User } = require('../models/User.model');
 
 const {
@@ -13,10 +15,11 @@ const {
   } = require('../utils/middleware');
 
 
+
 ///// Retrieve list of QUOTES /////
-router.get("/quotes/all", (req, res, next) => {
+router.get("/quotes", (req, res, next) => {
     Quote.find()
-        .populate('service field quoteOwner')
+        .populate('offers')
         .then( allQuotes => {
             res.json( allQuotes );
         })
@@ -29,7 +32,7 @@ router.get("/quotes/all", (req, res, next) => {
 router.get('/quotes/:id',ensureObjIdValid, (req, res, next) => {
 
     Quote.findById(req.params.id)
-        .populate('field service offers')
+        .populate('offer')
         .then( quote => {
             res.json(quote);
         })
@@ -41,12 +44,11 @@ router.get('/quotes/:id',ensureObjIdValid, (req, res, next) => {
 ///// Retrieve all OFFERS by contractor /////
 router.get('/offers', (req, res, next) => {
     Offer.find({'offerOwner':req.user._id})
-        .populate('vehicule')
+        .select('_id')
         .then( allOffers => {
             res.json(allOffers);
         })
         .catch( err => {
-            console.log(err);
             res.status(500).json(err);
         });
 });
@@ -62,15 +64,11 @@ router.post("/offers", (req, res, next) => {
         measureHour: req.body.measureHour,
         expecTime: req.body.expecTime,
         pricePerHour: req.body.pricePerHour,
-        //timer: req.body.timer,
+        timer: req.body.timer,
         offerOwner: req.user._id
     })
     .then( newOffer => {
-        Quote.findByIdAndUpdate({_id: req.body.quoteId},
-            { $push:{ offers: newOffer._id } },
-        )
-            .then(() => res.json(newOffer))
-            .catch(err => console.log(err));
+        res.json(newOffer);
     })
     .catch( err => {
         res.status(500).json(err);
@@ -81,7 +79,6 @@ router.post("/offers", (req, res, next) => {
 router.get('/offers/:id',ensureObjIdValid, (req, res, next) => {
 
     Offer.findById(req.params.id)
-        .populate('vehicule')
         .then( offer => {
             res.json(offer);
         })
@@ -95,7 +92,7 @@ router.put('/offers/:id', ensureObjIdValid, (req, res, next) => {
 
     Offer.findByIdAndUpdate(req.params.id, req.body)
         .then( () => {
-            res.json({ message: `Offer is updated successfully.` });
+            res.json({ message: `Offer with ${req.params.offerId} is updated successfully.` });
         })
         .catch( err => {
             res.status(500).send(err);
@@ -113,15 +110,25 @@ router.delete('/offers/:id', ensureObjIdValid, (req, res, next) => {
             res.status(500).send(err);
         });
 });
+/// Get a List of all default VERHICULES /////
+router.get('/vehiculeslist', (req, res, next) => {
+    Vehicule.find()
+        .then( allVehicules => {
+            res.json( allVehicules );
+        })
+        .catch( err => {
+            res.status(500).json(err);
+        });
+});
 
 ///// Retrieve all vehicule of a contractor /////
-router.get('/vehicules', ensureLoggedInAsContractor, (req, res, next) => {
+router.get('/vehicules',ensureLoggedInAsContractor , (req, res, next) => {
 
     Contractor.findById(req.user._id)
-        .populate('vehicules')
-        .then( contractorData => {
-            res.json(contractorData.vehicules);
+        .then( allvehicules => {
+            res.json(allvehicules.vehicules);
         })
+        .populate('vehicules')
         .catch( err => {
             res.status(500).json(err);
         });
@@ -134,6 +141,7 @@ router.post("/vehicules", ensureLoggedInAsContractor, (req, res, next) => {
         { $push: { 'vehicules': req.body.vehiculeId} },
         { new : true },
         )
+        .populate('vehicules')
         .then( addvehicule => {
             res.json(addvehicule);
         })
@@ -161,6 +169,7 @@ router.get('/services', ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findById(req.user._id)
         .select('services')
+        .populate('services')
         .then( allServices => {
             res.json(allServices);
         })
@@ -169,15 +178,26 @@ router.get('/services', ensureLoggedInAsContractor, (req, res, next) => {
         });
 });
 
+/// Get a List of all SERVICES /////
+router.get('/servicelist', (req, res, next) => {
+    Service.find()
+        .then( allServices => {
+            res.json( allServices );
+        })
+        .catch( err => {
+            res.status(500).json(err);
+        });
+});
+
 /// Add a SERVICES /////
 router.post("/services", ensureLoggedInAsContractor, (req, res, next) => {
-
-    Contractor.findByIdAndUpdate( {_id: req.user._id},
+    Contractor.findByIdAndUpdate( req.user._id,
         { $push: { 'services': req.body.id} },
         { new : true},
         )
-        .then( addservice => {
-            res.json(addservice)
+        .populate('services')
+        .then( serviceList => {
+            res.json(serviceList)
         })
         .catch( err => {
             res.status(500).json(err);
@@ -186,9 +206,8 @@ router.post("/services", ensureLoggedInAsContractor, (req, res, next) => {
 
 /// Delete a SERVICE ////
 router.put('/services/:id', ensureLoggedInAsContractor, (req, res, next) => {
-
-    Contractor.findByIdAndUpdate({_id: req.user._id},
-        { $pull:{ services: req.params.id } },
+    Contractor.findByIdAndUpdate( req.user._id,
+        { $pull: { 'services': req.params.id } },
         )
     .then( () => {
         res.json({ message: `Service with ${req.params.id} is removed successfully.` });
