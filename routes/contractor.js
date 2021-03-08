@@ -66,7 +66,11 @@ router.post("/offers", (req, res, next) => {
         offerOwner: req.user._id
     })
     .then( newOffer => {
-        res.json(newOffer);
+        Quote.findByIdAndUpdate({_id: req.body.quoteId},
+            { $push:{ offers: newOffer._id } },
+        )
+            .then(() => res.json(newOffer))
+            .catch(err => console.log(err));
     })
     .catch( err => {
         res.status(500).json(err);
