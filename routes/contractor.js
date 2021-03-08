@@ -114,6 +114,17 @@ router.delete('/offers/:id', ensureObjIdValid, (req, res, next) => {
         });
 });
 
+/// Get a List of all default VERHICULES /////
+router.get('/vehiculeslist', (req, res, next) => {
+    Vehicule.find()
+        .then( allVehicules => {
+            res.json( allVehicules );
+        })
+        .catch( err => {
+            res.status(500).json(err);
+        });
+});
+
 ///// Retrieve all vehicule of a contractor /////
 router.get('/vehicules', ensureLoggedInAsContractor, (req, res, next) => {
 
@@ -143,17 +154,27 @@ router.post("/vehicules", ensureLoggedInAsContractor, (req, res, next) => {
 });
 
 /// Delete a vehicule /////
-router.put('/vehicules/:id', ensureLoggedInAsContractor, (req, res, next) => {
-
-    Contractor.findByIdAndUpdate({_id: req.user._id},
-        { $pull:{ vehicules: req.params.id  } },
+router.put('/vehicules/:id', (req, res, next) => {
+    Contractor.findByIdAndUpdate(req.user._id,
+        { $pull:{ vehicules: req.body.deletedVehicules} },
         )
     .then( () => {
-        res.json({ message: `vehicule with ${req.params.id} is removed successfully.` });
+        res.json({ message: `Vehicules with ${req.params.id} is removed successfully.` });
     })
     .catch( err => {
         res.status(500).json(err);
     });
+ });
+
+/// Get a List of all SERVICES /////
+router.get("/servicelist", (req, res, next) => {
+    Service.find()
+        .then( allServices => {
+            res.json( allServices );
+        })
+        .catch( err => {
+            res.status(500).json(err);
+        });
 });
 
 ///// Retrieve all SERVICES of a contractor /////
@@ -185,10 +206,9 @@ router.post("/services", ensureLoggedInAsContractor, (req, res, next) => {
 });
 
 /// Delete a SERVICE ////
-router.put('/services/:id', ensureLoggedInAsContractor, (req, res, next) => {
-
-    Contractor.findByIdAndUpdate({_id: req.user._id},
-        { $pull:{ services: req.params.id } },
+router.put('/services/:id', (req, res, next) => {
+    Contractor.findByIdAndUpdate(req.user._id,
+        { $pull:{ services: req.body.deletedService } },
         )
     .then( () => {
         res.json({ message: `Service with ${req.params.id} is removed successfully.` });
@@ -196,6 +216,6 @@ router.put('/services/:id', ensureLoggedInAsContractor, (req, res, next) => {
     .catch( err => {
         res.status(500).json(err);
     });
-});
+ });
 
 module.exports = router;
