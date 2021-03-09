@@ -5,6 +5,8 @@ const router  = express.Router();
 // const User = require('../models/User.model');
 const Quote = require('../models/Quote.model');
 const Offer = require('../models/Offer.model');
+const Service = require('../models/Service.model');
+const Vehicule = require('../models/Vehicule.model');
 const { Contractor, User } = require('../models/User.model');
 
 const {
@@ -149,9 +151,10 @@ router.get('/vehiculeslist', (req, res, next) => {
 router.get('/vehicules', ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findById(req.user._id)
+        .select('vehicules')
         .populate('vehicules')
         .then( contractorData => {
-            res.json(contractorData.vehicules);
+            res.json(contractorData);
         })
         .catch( err => {
             res.status(500).json(err);
@@ -162,9 +165,10 @@ router.get('/vehicules', ensureLoggedInAsContractor, (req, res, next) => {
 router.post("/vehicules", ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findByIdAndUpdate( {_id: req.user._id},
-        { $push: { 'vehicules': req.body.vehiculeId} },
+        { $push: { 'vehicules': req.body.id} },
         { new : true },
         )
+        .populate('vehicules')
         .then( addvehicule => {
             res.json(addvehicule);
         })
@@ -202,6 +206,7 @@ router.get('/services', ensureLoggedInAsContractor, (req, res, next) => {
 
     Contractor.findById(req.user._id)
         .select('services')
+        .populate('services')
         .then( allServices => {
             res.json(allServices);
         })
@@ -217,6 +222,7 @@ router.post("/services", ensureLoggedInAsContractor, (req, res, next) => {
         { $push: { 'services': req.body.id} },
         { new : true},
         )
+        .populate('services')
         .then( addservice => {
             res.json(addservice)
         })
