@@ -30,6 +30,20 @@ router.get('/quotes/:id',ensureObjIdValid, (req, res, next) => {
 
     Quote.findById(req.params.id)
         .populate('field service offers')
+        .populate({
+            path: 'offers',
+            populate: {
+                path: 'offerOwner',
+                model: 'Contractor'
+            }
+        })
+        .populate({
+            path: 'offers',
+            populate: {
+                path: 'vehicule',
+                model: 'Vehicule'
+            }
+        })
         .then( quote => {
             res.json(quote);
         })
