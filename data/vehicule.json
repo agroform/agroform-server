@@ -7,7 +7,17 @@
     "enginePower": 221,
     "maxSpeed": 62,
     "fuelCap": 600,
-    "image": "https://static.wikia.nocookie.net/farmingsimulator/images/e/e1/FS17_Fendt-700Vario_store.png/revision/latest?cb=20161210151240"
+    "image": "https://www.fendt.com/de/images/5cf7c14c7b260603131231a7_1559740748_web_de-DE.png"
+  },
+  {
+    "vehicule": "Fendt 700 Vario",
+    "type": "Tractors",
+    "brand": "Fendt",
+    "weight": 980,
+    "enginePower": 221,
+    "maxSpeed": 62,
+    "fuelCap": 600,
+    "image": "https://www.fendt.com/de/images/5db2ae087b260605e913052c_1573208386_web_de-DE.jpg"
   },
   {
     "vehicule": "Deutz Fahr Series 7",
@@ -17,7 +27,17 @@
     "enginePower": 165,
     "maxSpeed": 63,
     "fuelCap": 435,
-    "image": "https://static.wikia.nocookie.net/farmingsimulator/images/9/95/FS17_DeutzFahr-Series7.png/revision/latest?cb=20170711230814"
+    "image": "https://www.deutz-fahr.com/samelib/timthumb.php?src=https://www.deutz-fahr.com/images/products/7_Series_Stage_4/SDFI-0070_3_Contourless_520x420px.png&w=500"
+  },
+  {
+    "vehicule": "AXION 960",
+    "type": "Tractors",
+    "brand": "Claas",
+    "weight": 8564,
+    "enginePower": 445,
+    "maxSpeed": 63,
+    "fuelCap": 435,
+    "image": "https://tillagemagazine.net/wp-content/uploads/2020/12/Claas-Axion.jpg"
   },
   {
     "vehicule": "New Holland TC5.90",
@@ -28,6 +48,6 @@
     "maxSpeed": 23,
     "fuelCap": 400,
     "cropCap": 6400,
-    "image": "https://static.wikia.nocookie.net/farmingsimulator/images/4/49/FS17_NewHolland-TC590.png/revision/latest?cb=20170719024345"
+    "image": "https://specs.lectura.de/models/renamed/detail_max_retina/maehdrescher-tc-5-90-scr-new-holland.png"
   }
 ]
