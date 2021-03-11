@@ -244,4 +244,17 @@ router.put('/services/:id', (req, res, next) => {
     });
  });
 
+ /// Get a List of all SERVICES /////
+router.get("/contractorlist", (req, res, next) => {
+    Contractor.find()
+        .populate('vehicules')
+        .populate('services')
+        .then( allContractor => {
+            res.json( allContractor );
+        })
+        .catch( err => {
+            res.status(500).json(err);
+        });
+});
+
 module.exports = router;
