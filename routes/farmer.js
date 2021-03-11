@@ -104,6 +104,7 @@ router.get('/quotes?', (req, res, next) => {
 
   if (farmerId) {
     Quote.find({quoteOwner: farmerId})
+      .populate('service field offers')
       .then(response => {
         res.status(200).json(response);
       })
