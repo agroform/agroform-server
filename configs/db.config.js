@@ -8,8 +8,8 @@ mongoose
     useCreateIndex: true,
     useFindAndModify: false,
   })
-  .then(() => console.log(`Successfully connected to the database ${MONGODB_URI}`))
+  .then(() => console.log("Successfully connected to database"))
   .catch(error => {
-    console.error(`An error ocurred trying to connect to the database ${MONGODB_URI}: `, error);
+    console.error("An error ocurred trying to connect to the database", error);
     process.exit(1);
   });

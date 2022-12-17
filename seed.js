@@ -21,7 +21,6 @@ mongoose
       Service.insertMany(serviceData),
     ]);
   })
-  .then(() => console.log("data base seeded with vehicules, services and 2 dummy users"))
   .then(() => mongoose.connection.close())
   .catch(err => console.log(err));
 
